@@ -7,7 +7,7 @@ import { BsFillPersonFill } from "react-icons/bs";
 import { IoLogOut } from "react-icons/io5";
 import PopupElement from './PopupElement';
 import { useNavigate } from 'react-router-dom';
-import { setUserDetails } from '../../Features/User/UserSlice';
+import { setUserDetails } from '../../../Features/User/UserSlice';
 
 
 function Navbar() {

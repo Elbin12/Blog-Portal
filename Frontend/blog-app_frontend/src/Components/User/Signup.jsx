@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { IoMdClose } from "react-icons/io";
 import {useDispatch} from 'react-redux';
-import { signup } from '../Features/User/UserActions';
-import { axiosInstance } from '../axios';
+import { signup } from '../../Features/User/UserActions';
+import { axiosInstance } from '../../axios';
 
 function Signup({setActivePopup}) {
   const [email, setEmail] = useState();

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { IoMdClose } from 'react-icons/io'
 import { useDispatch, useSelector } from 'react-redux';
-import { signin } from '../Features/User/UserActions';
+import { signin } from '../../Features/User/UserActions';
 
 function Signin({setActivePopup}) {
   const [email, setEmail] = useState();
