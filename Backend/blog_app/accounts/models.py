@@ -46,4 +46,9 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.email
-    
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name='user_profile')
+    first_name = models.CharField()
+    last_name = models.CharField()
+    profile_pic = models.FileField(upload_to='users/profile_pic/')
