@@ -8,7 +8,7 @@ function UserProtected({children}) {
     const navigate = useNavigate();
     
     useEffect(()=>{
-        if (userDetails === null || userDetails === undefined || userDetails === ''){
+        if (userDetails === undefined || userDetails === null || userDetails === ''){
             navigate('/')
         }
     }, [userDetails])

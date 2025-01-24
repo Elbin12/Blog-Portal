@@ -3,7 +3,7 @@ import { signin, signup } from './UserActions';
 
 const accessToken = localStorage.getItem('AccessToken');
 const refreshToken = localStorage.getItem('RefreshToken');
-const userDetails = JSON.parse(localStorage.getItem('userDetails'));
+const userDetails = (localStorage.getItem('userDetails'));
 
 console.log(userDetails, 'fff')
 const initialState = {

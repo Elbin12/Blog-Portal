@@ -10,11 +10,6 @@ function Signin({setActivePopup}) {
 
   const dispatch = useDispatch();
 
-  const token = useSelector(state=>state.user.accessToken)
-  const loading = useSelector(state=>state.user.loading)
-
-  console.log(token, 'token')
-
   const handleSubmit = () => {
     if (!email || !psword){
       setError('Email and password are required.');

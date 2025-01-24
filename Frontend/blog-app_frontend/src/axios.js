@@ -9,4 +9,19 @@ const axiosInstance = axios.create({
 
 const api_key = process.env.REACT_APP_AXIOS_API;
 
+axiosInstance.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem("AccessToken");
+
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
 export {BASE_URL, axiosInstance, api_key}

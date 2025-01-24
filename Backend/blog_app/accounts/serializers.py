@@ -23,4 +23,4 @@ class UserSerializer(ModelSerializer):
     user_profile = UserProfileSerializer()
     class Meta:
         model = CustomUser
-        fields = ['id', 'email', 'is_active', 'date_joined', 'user_profile']
+        fields = ['id', 'email', 'is_active', 'date_joined', 'user_profile', 'is_superuser']

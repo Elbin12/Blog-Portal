@@ -1,8 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import UserProtected from './UserProtected';
-import HomePage from '../Pages/HomePage';
-import Profilepage from '../Pages/Profilepage';
+import HomePage from '../Pages/User/HomePage';
+import Profilepage from '../Pages/User/Profilepage';
 
 function UserRoutes() {
   return (

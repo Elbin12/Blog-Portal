@@ -6,7 +6,6 @@ from .serializers import SignupSerializer, UserSerializer
 from rest_framework.response import Response
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework import permissions
-from rest_framework.exceptions import ValidationError
 from rest_framework_simplejwt.tokens import RefreshToken
 
 
