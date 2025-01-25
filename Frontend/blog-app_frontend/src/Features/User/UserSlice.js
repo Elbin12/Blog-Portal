@@ -1,15 +1,17 @@
 import {createSlice} from '@reduxjs/toolkit';
-import { signin, signup } from './UserActions';
+import { profileUpdate, userSignin, signup } from './UserActions';
 
-const accessToken = localStorage.getItem('AccessToken');
-const refreshToken = localStorage.getItem('RefreshToken');
-const userDetails = (localStorage.getItem('userDetails'));
 
-console.log(userDetails, 'fff')
+const access_token = localStorage.getItem("accessToken");
+const refresh_token = localStorage.getItem("refreshToken");
+const userDetails = JSON.parse(localStorage.getItem("userDetails"));
+
+console.log(access_token, 'accesss')
+
 const initialState = {
-    userDetails: userDetails ? userDetails : null,
-    accessToken: accessToken? accessToken : null,
-    refreshToken: refreshToken? refreshToken : null,
+    userDetails: userDetails? userDetails : null,
+    accessToken: access_token? access_token : null,
+    refreshToken: refresh_token? refresh_token : null,
     loading:false,
     success:false,
     error:'',
@@ -48,21 +50,46 @@ const userSlice = createSlice({
             state.error = action?.payload;
         })
 
-        .addCase(signin.pending, (state)=>{
+        .addCase(userSignin.pending, (state)=>{
             state.loading = true;
         })
 
-        .addCase(signin.fulfilled, (state, action)=>{
-            localStorage.setItem("AccessToken", action?.payload?.user_data?.access_token);
-            localStorage.setItem("RefreshToken", action?.payload?.user_data?.refresh_token);
-            localStorage.setItem("userDetails", JSON.stringify(action?.payload?.user_data?.userDetails));
-            console.log(action?.payload?.user_data?.userDetails, 'kkk')
-            state.accessToken = action?.payload?.user_data?.access_token;
-            state.refreshToken = action?.payload?.user_data?.refresh_token;
-            state.userDetails = action?.payload?.user_data?.userDetails;
+        // .addCase(userSignin.fulfilled, (state, action) => {
+        //     const userData = action?.payload?.user_data;
+        //     if (userData) {
+        //         state.accessToken = userData.access_token;
+        //         state.refreshToken = userData.refresh_token;
+        //         state.userDetails = userData.userDetails;
+        //     } else {
+        //         console.error("No user data available.");
+        //     }
+        // })
+
+        .addCase(userSignin.fulfilled, (state, action)=>{
+            const userData = action?.payload?.user_data;
+            localStorage.setItem("accessToken", userData?.access_token);
+            console.log("kkk");
+            localStorage.setItem("refreshToken", userData?.refresh_token);
+            localStorage.setItem("userDetails", JSON.stringify(userData?.userDetails));
+            console.log('kkk',action?.payload?.user_data?.access_token, )
+            state.accessToken = userData?.access_token;
+            state.refreshToken = userData?.refresh_token;
+            state.userDetails = userData?.userDetails;
         })
 
-        .addCase(signin.rejected, (state, action) => {
+        .addCase(userSignin.rejected, (state, action) => {
+            state.error = action?.payload;
+        })
+
+        .addCase(profileUpdate.pending, (state)=>{
+            state.pending = true;
+        })
+
+        .addCase(profileUpdate.fulfilled, (state, action) => {
+            state.userDetails = {...state.userDetails, user_profile: action?.payload}
+        })
+
+        .addCase(profileUpdate.rejected, (state, action) => {
             state.error = action?.payload;
         })
     }

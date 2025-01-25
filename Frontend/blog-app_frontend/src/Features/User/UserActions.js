@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { signupService, singinService } from "./UserService";
+import { profileUpdateService, signupService, singinService } from "./UserService";
 
 export const signup = createAsyncThunk(
     "signup", 
@@ -14,7 +14,7 @@ export const signup = createAsyncThunk(
     }
 );
 
-export const signin = createAsyncThunk(
+export const userSignin = createAsyncThunk(
     'signin',
     async (data, {rejectWithValue})=>{
         try{
@@ -26,4 +26,19 @@ export const signin = createAsyncThunk(
             return rejectWithValue(error?.response?.data?.error)
         }
     }
-)
+);
+
+export const profileUpdate = createAsyncThunk(
+    'profileUpdate',
+    async (data, {rejectWithValue}) => {
+        try{
+            const response = await profileUpdateService(data);
+            console.log(response, 'lk');
+            
+            return response.data;
+        }catch(error){
+            console.log('err', error)
+            return rejectWithValue(error?.response?.data?.error)
+        }
+    }
+);

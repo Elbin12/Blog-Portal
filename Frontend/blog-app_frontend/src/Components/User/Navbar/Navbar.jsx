@@ -4,7 +4,7 @@ import Signin from '../Signin';
 import { useDispatch, useSelector } from 'react-redux';
 import { RiAccountCircleFill } from "react-icons/ri";
 import { BsFillPersonFill } from "react-icons/bs";
-import { IoLogOut } from "react-icons/io5";
+import { IoAddCircle, IoLogOut } from "react-icons/io5";
 import PopupElement from './PopupElement';
 import { useNavigate } from 'react-router-dom';
 import { setUserDetails } from '../../../Features/User/UserSlice';
@@ -13,6 +13,10 @@ import { setUserDetails } from '../../../Features/User/UserSlice';
 function Navbar() {
     const [activePopup, setActivePopup] = useState('');
     const userDetails = useSelector(state=>state.user.userDetails)
+
+    const user = useSelector(state=>state.user)
+
+    console.log(user, 'usersdd')
 
     const[popup, setPopup] = useState(false);
 
@@ -26,8 +30,8 @@ function Navbar() {
     }
 
     const SignOut = () => {
-      localStorage.removeItem('AccessToken');
-      localStorage.removeItem('RefreshToken');
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
       localStorage.removeItem('userDetails');
       dispatch(setUserDetails(null));
       setPopup('')
@@ -50,7 +54,8 @@ function Navbar() {
             <div className='flex gap-4 items-center'>
               {userDetails?
                 <>
-                    <RiAccountCircleFill className='text-4xl cursor-pointer text-lime-700' onClick={handlePopup}/>
+                  <button className='bg-stone-800 hover:bg-stone-900 text-white px-3 pr-6 py-2 rounded-full text-sm font-thin flex gap-2 items-center' onClick={()=>navigate('/create/blog')}><IoAddCircle className='text-2xl'/>Create a blog</button>
+                  <RiAccountCircleFill className='text-5xl cursor-pointer text-lime-700' onClick={handlePopup}/>
                 </>
                 :
                 <>

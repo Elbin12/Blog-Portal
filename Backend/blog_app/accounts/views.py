@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
-from rest_framework.generics import ListCreateAPIView, CreateAPIView
+from rest_framework.generics import ListCreateAPIView, CreateAPIView, UpdateAPIView
 from .models import CustomUser
-from .serializers import SignupSerializer, UserSerializer
+from .serializers import SignupSerializer, UserSerializer, UserProfileSerializer
 from rest_framework.response import Response
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework import permissions
@@ -55,3 +55,12 @@ class HomeView(APIView):
     permission_classes = [permissions.IsAuthenticated]
     def get(self, request):
         return Response({'status':'success'},status=200)
+    
+class ProfileUpdate(UpdateAPIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
+    queryset = CustomUser.objects.all()
+    serializer_class = UserProfileSerializer
+
+    def get_object(self):
+        return self.request.user

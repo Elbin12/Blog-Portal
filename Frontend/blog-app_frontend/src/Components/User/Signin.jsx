@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { IoMdClose } from 'react-icons/io'
 import { useDispatch, useSelector } from 'react-redux';
-import { signin } from '../../Features/User/UserActions';
+import { userSignin } from '../../Features/User/UserActions';
 
 function Signin({setActivePopup}) {
   const [email, setEmail] = useState();
@@ -20,11 +20,11 @@ function Signin({setActivePopup}) {
       'email':email,
       'password': psword
     }
-    dispatch(signin(data));
+    dispatch(userSignin(data));
   }
 
   return (
-    <div className='fixed h-screen w-screen bg-[#ffffff8f]'>  
+    <div className='fixed h-screen w-screen bg-[#ffffff8f]'>
       <div className='w-full mt-24 flex justify-center'>
         <div className='w-1/4 h-full bg-white rounded-lg p-3 shadow-2xl'>
             <div className="flex justify-end">

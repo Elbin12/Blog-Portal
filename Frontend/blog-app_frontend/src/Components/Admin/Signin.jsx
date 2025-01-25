@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { signin } from '../../Features/Admin/AdminActions';
+import { adminSignin } from '../../Features/Admin/AdminActions';
 
 function Signin() {
 
@@ -14,7 +14,7 @@ function Signin() {
       email,
       password
     }
-    dispatch(signin(data))
+    dispatch(adminSignin(data))
   }
 
   return (

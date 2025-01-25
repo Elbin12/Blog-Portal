@@ -2,11 +2,13 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { siginService, usersService } from "./AdminService";
 
 
-export const signin = createAsyncThunk(
+export const adminSignin = createAsyncThunk(
     'signin',
     async (data, {rejectWithValue})=>{
         try{
             const response = await siginService(data);
+            console.log(response.data, 'admin');
+            
             return response.data;
         }catch(error){
             console.log(error, 'errrr')

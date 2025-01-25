@@ -1,16 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { signin, users } from "./AdminActions";
+import { adminSignin, users } from "./AdminActions";
 
-const accessToken = localStorage.getItem('AccessToken');
-const refreshToken = localStorage.getItem('RefreshToken');
+const accessToken = localStorage.getItem('accessToken');
+const refreshToken = localStorage.getItem('refreshToken');
 const adminDetails = JSON.parse(localStorage.getItem('adminDetails'));
 
 
+
 const initialState = {
-    adminDetails : adminDetails ? adminDetails : null,
     users : null,
-    accessToken : accessToken? accessToken : null,
-    refreshToken : refreshToken? refreshToken : null,
+    adminDetails: adminDetails? adminDetails : null,
+    accessToken: accessToken? accessToken : null,
+    refreshToken: refreshToken? refreshToken : null,
     loading : false,
     success : false,
     error : '',
@@ -36,13 +37,15 @@ const adminSlice = createSlice({
     },
     extraReducers(builder){
         builder
-        .addCase(signin.pending, (state)=>{
+        .addCase(adminSignin.pending, (state)=>{
             state.loading = true;
         })
 
-        .addCase(signin.fulfilled, (state, action)=>{
-            localStorage.setItem("AccessToken", action?.payload?.admin_data?.access_token);
-            localStorage.setItem("RefreshToken", action?.payload?.admin_data?.refresh_token);
+        .addCase(adminSignin.fulfilled, (state, action)=>{
+            console.log('hi');
+            
+            localStorage.setItem("accessToken", action?.payload?.admin_data?.access_token);
+            localStorage.setItem("refreshToken", action?.payload?.admin_data?.refresh_token);
             localStorage.setItem("adminDetails", JSON.stringify(action?.payload?.admin_data?.adminDetails));
             state.accessToken = action?.payload?.admin_data?.access_token;
             state.refreshToken = action?.payload?.admin_data?.refresh_token;
@@ -50,7 +53,7 @@ const adminSlice = createSlice({
             state.success = true; 
         })
 
-        .addCase(signin.rejected, (state, action)=>{
+        .addCase(adminSignin.rejected, (state, action)=>{
             state.error = action?.payload;
         })
 
