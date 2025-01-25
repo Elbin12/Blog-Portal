@@ -1,13 +1,15 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.generics import ListCreateAPIView, CreateAPIView, UpdateAPIView
-from .models import CustomUser
+from .models import CustomUser, UserProfile
 from .serializers import SignupSerializer, UserSerializer, UserProfileSerializer
 from rest_framework.response import Response
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework import permissions
 from rest_framework_simplejwt.tokens import RefreshToken
-
+from .utils import upload_fileobj_to_s3
+import os
+from datetime import datetime
 
 # Create your views here.
 
@@ -63,4 +65,16 @@ class ProfileUpdate(UpdateAPIView):
     serializer_class = UserProfileSerializer
 
     def get_object(self):
-        return self.request.user
+        user = self.request.user
+        profile, created = UserProfile.objects.get_or_create(user=user)
+        return profile
+    
+
+    def update(self, request, *args, **kwargs):
+        user_profile = self.get_object()
+        serializer = self.get_serializer(user_profile, data=request.data, partial=True)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=200)
+        return Response(serializer.errors, status=400)

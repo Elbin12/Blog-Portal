@@ -12,3 +12,11 @@ export const singinService = async(data) => {
 export const profileUpdateService = async(data) => {
     return await axiosInstance.put('profile/update/', data);
 }
+
+export const imageUploadService = async(data) => {
+    return await axiosInstance.put('profile/update/', data, {
+        headers: {
+            "Content-Type": "multipart/form-data",
+          },
+    });
+}

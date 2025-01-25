@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit"
 import { adminSignin, users } from "./AdminActions";
 
-const accessToken = localStorage.getItem('accessToken');
-const refreshToken = localStorage.getItem('refreshToken');
+const accessToken = localStorage.getItem('admin_access_token');
+const refreshToken = localStorage.getItem('admin_refresh_token');
 const adminDetails = JSON.parse(localStorage.getItem('adminDetails'));
 
 
@@ -44,8 +44,8 @@ const adminSlice = createSlice({
         .addCase(adminSignin.fulfilled, (state, action)=>{
             console.log('hi');
             
-            localStorage.setItem("accessToken", action?.payload?.admin_data?.access_token);
-            localStorage.setItem("refreshToken", action?.payload?.admin_data?.refresh_token);
+            localStorage.setItem("admin_access_token", action?.payload?.admin_data?.access_token);
+            localStorage.setItem("admin_refresh_token", action?.payload?.admin_data?.refresh_token);
             localStorage.setItem("adminDetails", JSON.stringify(action?.payload?.admin_data?.adminDetails));
             state.accessToken = action?.payload?.admin_data?.access_token;
             state.refreshToken = action?.payload?.admin_data?.refresh_token;

@@ -3,13 +3,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { CiCamera } from "react-icons/ci";
 import { MdOutlineModeEditOutline } from "react-icons/md";
 import EditPopup from './EditPopup';
+import { imageUpdate } from '../../../Features/User/UserActions';
 
 function Profile() {
 
     const userDetails = useSelector(state=>state.user.userDetails)
 
     const [img, setImg] = useState();
-    const [popup, setPopup] = useState(false);
+    const [pic, setPic] = useState();
+    const [popup, setPopup] = useState('');
 
     const inputRef = useRef();
     const dispatch = useDispatch();
@@ -20,14 +22,29 @@ function Profile() {
         if(file){
             const cachedURL = URL.createObjectURL(file);
             setImg(cachedURL);
+            setPic(file);
+            setPopup('editImg');
         }
+    }
+
+    const handleImgUplod = ()=> {
+        const data = {
+            'profile_pic' : pic
+        }
+        console.log(pic, 'pic')
+        dispatch(imageUpdate(data));
     }
 
     
 
   return (
     <>
-        { popup && <EditPopup setPopup={setPopup}/>}
+        { popup==='editProfile' && <EditPopup setPopup={setPopup}/>}
+        { popup =='editImg' &&
+            <div className='fixed bg-lime-800 cursor-pointer bottom-0 w-full text-center py-2 mb-1' onClick={handleImgUplod}>
+                <button className='text-white text-lg'>Save</button>
+            </div>
+        }
         <div className='h-screen bg-stone-100'>
         <div className='p-24 flex gap-4 items-center'>
             <div className='bg-white w-36 h-36 rounded-full flex justify-center items-center'>
@@ -49,7 +66,7 @@ function Profile() {
             </div>
             <div>
                 <h1 className='text-5xl'>{userDetails?.user_profile?.first_name ? userDetails?.user_profile?.first_name + userDetails?.user_profile?.last_name : 'No Profile'}</h1>
-                <p className='mt-1 text- underline pl-1 cursor-pointer hover:text-stone-700 font-semibold' onClick={()=>setPopup(true)}>Edit Profile</p>
+                <p className='mt-1 text- underline pl-1 cursor-pointer hover:text-stone-700 font-semibold' onClick={()=>setPopup('editProfile')}>Edit Profile</p>
             </div>
         </div>
         </div>

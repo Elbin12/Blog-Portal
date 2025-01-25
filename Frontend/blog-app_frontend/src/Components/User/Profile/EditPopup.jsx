@@ -32,7 +32,7 @@ function EditPopup({setPopup}) {
       <div className='w-[25rem] h-full bg-lime-900 bg-opacity-60 p-2'>
         <div className="flex justify-end">
             <button className="text-gray-300 hover:text-gray-700 transition-colors">
-                <IoMdClose className="text-3xl" onClick={()=>setPopup(false)}/>  
+                <IoMdClose className="text-3xl" onClick={()=>setPopup('')}/>  
             </button>
         </div>
         <div className='px-4 space-y-24'>

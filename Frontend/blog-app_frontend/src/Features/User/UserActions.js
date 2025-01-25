@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { profileUpdateService, signupService, singinService } from "./UserService";
+import { imageUploadService, profileUpdateService, signupService, singinService } from "./UserService";
 
 export const signup = createAsyncThunk(
     "signup", 
@@ -42,3 +42,17 @@ export const profileUpdate = createAsyncThunk(
         }
     }
 );
+
+export const imageUpdate = createAsyncThunk(
+    'imageUpdate',
+    async (data, {rejectWithValue}) => {
+        try{
+            const response = await imageUploadService(data);
+            console.log(response, 'lk');
+            return response.data;
+        }catch(error){
+            console.log(error, 'imageupload error');
+            return rejectWithValue(error?.response?.data?.error);
+        }
+    }
+)
