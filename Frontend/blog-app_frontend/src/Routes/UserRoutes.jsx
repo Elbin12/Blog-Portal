@@ -4,6 +4,7 @@ import UserProtected from './UserProtected';
 import HomePage from '../Pages/User/HomePage';
 import Profilepage from '../Pages/User/Profilepage';
 import CreateBlogPage from '../Pages/User/CreateBlogPage';
+import BlogsListingPage from '../Pages/User/BlogsListingPage';
 
 function UserRoutes() {
   return (
@@ -11,6 +12,7 @@ function UserRoutes() {
         <Route path='' element={<UserProtected>< HomePage/></UserProtected>}/>
         <Route path='/profile' element={<UserProtected>< Profilepage/></UserProtected>}/>
         <Route path='/create/blog' element={<UserProtected>< CreateBlogPage/></UserProtected>}/>
+        <Route path='/blogs' element={<UserProtected>< BlogsListingPage/></UserProtected>}/>
     </Routes>
   )
 }

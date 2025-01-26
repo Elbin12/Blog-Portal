@@ -7,7 +7,7 @@ class UsersProfileSerializer(ModelSerializer):
         fields = '__all__'
 
 class UsersListingSerializer(ModelSerializer):
-    user_profile = UsersProfileSerializer(many=True)
+    user_profile = UsersProfileSerializer()
     class Meta:
         model = CustomUser
         fields = ['id', 'email', 'is_active', 'date_joined', 'user_profile']

@@ -53,3 +53,23 @@ class UserProfile(models.Model):
     first_name = models.CharField()
     last_name = models.CharField()
     profile_pic = models.CharField(max_length=200, null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+class Blog(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='user_blog')
+    heading = models.CharField(max_length=50)
+    sub_heading = models.CharField(max_length=50)
+    body = models.TextField()
+    image = models.CharField(max_length=200)
+    like_count = models.IntegerField(default=0)
+    unlike_count = models.IntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+class Comments(models.Model):
+    blog = models.ForeignKey(Blog, on_delete=models.CASCADE, related_name='blog_comment')
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='blog_comment')
+    comment = models.TextField()
+    like_count = models.IntegerField(default=0)
+    unlike_count = models.IntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)

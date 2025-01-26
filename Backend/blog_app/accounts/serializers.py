@@ -1,5 +1,5 @@
 from rest_framework.serializers import ModelSerializer, ValidationError, FileField, SerializerMethodField
-from .models import CustomUser, UserProfile
+from .models import CustomUser, UserProfile, Blog
 import os
 from .utils import upload_fileobj_to_s3, create_presigned_url
 from datetime import datetime
@@ -61,3 +61,9 @@ class UserSerializer(ModelSerializer):
     class Meta:
         model = CustomUser
         fields = ['id', 'email', 'is_active', 'date_joined', 'user_profile', 'is_superuser']
+
+class BlogSerializer(ModelSerializer):
+    class Meta:
+        model = Blog
+        fields = ['id', 'user', 'heading', 'sub_heading', 'body', 'image', 'like_count', 'unlike_count', 'created_at', 'updated_at']
+        read_only_fields = ['user', 'like_count', 'unlike_count', 'created_at', 'updated_at', 'image']

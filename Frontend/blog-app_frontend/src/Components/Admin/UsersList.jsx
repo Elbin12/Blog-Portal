@@ -5,7 +5,7 @@ import { IoIosArrowDroprightCircle } from "react-icons/io";
 
 function UsersList() {
 
-    const usersList = useSelector(state=>state.admin.users);
+    const usersList = useSelector(state=>state.admin?.users);
     const dispatch = useDispatch();
 
     useEffect(()=>{

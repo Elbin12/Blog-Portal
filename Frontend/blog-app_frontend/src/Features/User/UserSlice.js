@@ -1,5 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit';
-import { profileUpdate, userSignin, signup, imageUpdate } from './UserActions';
+import { profileUpdate, userSignin, signup, imageUpdate, createBlog, blogList } from './UserActions';
 
 
 const access_token = localStorage.getItem("user_access_token");
@@ -16,6 +16,7 @@ const initialState = {
     success:false,
     error:'',
     message:'',
+    blogs: []
 };
 
 const userSlice = createSlice({
@@ -99,6 +100,30 @@ const userSlice = createSlice({
 
         .addCase(imageUpdate.fulfilled, (state, action)=>{
             state.userDetails = {...state.userDetails, user_profile: {...state.userDetails.user_profile, profile_pic:action?.payload}}
+        })
+
+        .addCase(createBlog.pending, (state) => {
+            state.pending = true;
+        })
+
+        .addCase(createBlog.fulfilled, (state, action) => {
+            state.blogs = [...state.blogs, action?.payload];
+        })
+
+        .addCase(createBlog.rejected, (state, action) => {
+            state.error = action?.payload;
+        })
+
+        .addCase(blogList.pending, (state)=>{
+            state.pending = true;
+        })
+
+        .addCase(blogList.fulfilled, (state, action) => {
+            state.blogs = action?.payload;
+        })
+
+        .addCase(blogList.rejected, (state, action) => {
+            state.error = action?.payload;
         })
     }
 })

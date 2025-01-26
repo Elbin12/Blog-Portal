@@ -50,10 +50,11 @@ function Navbar() {
           </div>
         }
         <div className='bg-white shadow-md w-full h-20 flex justify-between items-center px-11'>
-            <h1 className='cursor-pointer font-semibold'>BLOG APPLICATION</h1>
+            <h1 className='cursor-pointer font-semibold' onClick={()=>navigate('/')}>BLOG APPLICATION</h1>
             <div className='flex gap-4 items-center'>
               {userDetails?
                 <>
+                  <h1 className='font-semibold cursor-pointer hover:underline text-lg' onClick={()=>navigate('/blogs/')}>Your Blogs</h1>
                   <button className='bg-stone-800 hover:bg-stone-900 text-white px-3 pr-6 py-2 rounded-full text-sm font-thin flex gap-2 items-center' onClick={()=>navigate('/create/blog')}><IoAddCircle className='text-2xl'/>Create a blog</button>
                   <RiAccountCircleFill className='text-5xl cursor-pointer text-lime-700' onClick={handlePopup}/>
                 </>

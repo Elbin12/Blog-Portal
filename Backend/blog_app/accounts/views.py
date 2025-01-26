@@ -1,14 +1,15 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.generics import ListCreateAPIView, CreateAPIView, UpdateAPIView
-from .models import CustomUser, UserProfile
-from .serializers import SignupSerializer, UserSerializer, UserProfileSerializer
+from .models import CustomUser, UserProfile, Blog
+from .serializers import SignupSerializer, UserSerializer, UserProfileSerializer, BlogSerializer
 from rest_framework.response import Response
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework import permissions
 from rest_framework_simplejwt.tokens import RefreshToken
-from .utils import upload_fileobj_to_s3
+from rest_framework.exceptions import ValidationError
 import os
+from .utils import upload_fileobj_to_s3
 from datetime import datetime
 
 # Create your views here.
@@ -78,3 +79,24 @@ class ProfileUpdate(UpdateAPIView):
             serializer.save()
             return Response(serializer.data, status=200)
         return Response(serializer.errors, status=400)
+    
+class CreateListBlog(ListCreateAPIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
+    queryset = Blog.objects.all()
+    serializer_class = BlogSerializer
+
+    def perform_create(self, serializer):
+        if 'image' in self.request.FILES:
+            file = self.request.FILES['image']
+            
+            file_extension = os.path.splitext(file.name)[1]
+            current_time_str = datetime.now().strftime("%Y%m%d_%H%M%S")
+            unique_filename = f"{current_time_str}{file_extension}"
+            s3_file_path = f"users/blog/image/{unique_filename}"
+
+            try:
+                upload_fileobj_to_s3(file, s3_file_path)
+            except Exception as e:
+                raise ValidationError({"image": f"Failed to upload image: {str(e)}"})
+        serializer.save(user=self.request.user, image=s3_file_path)
