@@ -10,7 +10,7 @@ function EditPopup({setPopup}) {
     const dispatch = useDispatch();
 
     const [firstName, setFirstName] = useState(userDetails? userDetails?.user_profile?.first_name : '');
-    const [lastName, setLastName] = useState();
+    const [lastName, setLastName] = useState(userDetails? userDetails?.user_profile?.last_name : '');
     const [email, setEmail] = useState(userDetails? userDetails?.email : '');
 
     console.log(email, firstName, lastName, 'lee', userDetails?.email, userDetails.id, typeof(userDetails), userDetails)
@@ -39,8 +39,8 @@ function EditPopup({setPopup}) {
             <h1 className='text-white font-semibold text-3xl pt-16'>Edit Profile</h1>
             <div className='px-4 space-y-9'>
                 <InputBox Name={'First Name'} handler={setFirstName} curr={firstName}/>
-                <InputBox Name={'Last Name'} handler={setLastName}/>
-                <InputBox Name={'Email'} curr={email} handler={setEmail}/>
+                <InputBox Name={'Last Name'} handler={setLastName} curr={lastName}/>
+                {/* <InputBox Name={'Email'} curr={email} handler={setEmail}/> */}
             </div>
         </div>
         <div className='bg-lime-700 mt-24 text-center py-2 cursor-pointer hover:bg-lime-900 rounded-lg mx-6' onClick={handleSubmit}>

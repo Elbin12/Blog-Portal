@@ -9,7 +9,7 @@ function Profile() {
 
     const userDetails = useSelector(state=>state.user.userDetails)
 
-    const [img, setImg] = useState();
+    const [img, setImg] = useState(userDetails?.user_profile?.profile_pic? userDetails?.user_profile?.profile_pic: null);
     const [pic, setPic] = useState();
     const [popup, setPopup] = useState('');
 
@@ -35,7 +35,7 @@ function Profile() {
         dispatch(imageUpdate(data));
     }
 
-    
+    console.log('userdetails', userDetails)
 
   return (
     <>
@@ -49,9 +49,7 @@ function Profile() {
         <div className='p-24 flex gap-4 items-center'>
             <div className='bg-white w-36 h-36 rounded-full flex justify-center items-center'>
                 <input type="file" className='hidden' ref={inputRef} onChange={handleImg}/>
-                {userDetails?.user_profile?.profile_img?
-                    <img src={userDetails?.user_profile?.profile_img} alt="" className='w-11 h-11 object-cover rounded-full'/>
-                    : img?
+                {img?
                     <>
                         <img src={img} alt="" className='w-full h-full object-cover rounded-full'/>
                         <div className='fixed text-3xl opacity-0 rounded-full w-36 flex items-center justify-center h-36 bg-black bg-opacity-50 text-white hover:opacity-100 transition-opacity duration-300 cursor-pointer' onClick={()=>{inputRef.current.click()}}>

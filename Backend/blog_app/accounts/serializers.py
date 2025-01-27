@@ -63,7 +63,15 @@ class UserSerializer(ModelSerializer):
         fields = ['id', 'email', 'is_active', 'date_joined', 'user_profile', 'is_superuser']
 
 class BlogSerializer(ModelSerializer):
+    image = SerializerMethodField()
     class Meta:
         model = Blog
         fields = ['id', 'user', 'heading', 'sub_heading', 'body', 'image', 'like_count', 'unlike_count', 'created_at', 'updated_at']
         read_only_fields = ['user', 'like_count', 'unlike_count', 'created_at', 'updated_at', 'image']
+
+    def get_image(self, obj):
+        image_url = create_presigned_url(str(obj.image))
+        if image_url:
+            print(image_url, 'll')
+            return image_url
+        return None

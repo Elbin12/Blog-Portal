@@ -88,6 +88,7 @@ const userSlice = createSlice({
 
         .addCase(profileUpdate.fulfilled, (state, action) => {
             state.userDetails = {...state.userDetails, user_profile: action?.payload}
+            localStorage.setItem("userDetails", JSON.stringify({...state.userDetails, user_profile: action?.payload}));
         })
 
         .addCase(profileUpdate.rejected, (state, action) => {
@@ -119,6 +120,7 @@ const userSlice = createSlice({
         })
 
         .addCase(blogList.fulfilled, (state, action) => {
+            console.log(action?.payload, 'kjh')
             state.blogs = action?.payload;
         })
 
