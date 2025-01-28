@@ -10,7 +10,7 @@ function Navbar() {
       <h1 className='text-2xl cursor-pointer' onClick={()=>navigate('/admin/home')}>Blog Admin</h1>
       <div className='flex gap-4'>
         <div className='cursor-pointer' onClick={()=>navigate('/admin/users')}>
-          <h1 className='text-xl'>Users</h1>
+          <h1 className={`text-xl ${window.location.pathname.includes('user') && 'underline'}`}>Users</h1>
         </div>
         <div className='cursor-pointer'>
           <h1 className='text-xl'>Blogs</h1>
