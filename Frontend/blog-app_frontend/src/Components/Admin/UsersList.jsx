@@ -17,9 +17,9 @@ function UsersList() {
   return (
     <div className='px-28 pt-11 bg-stone-50 h-screen'>
       <div>
-        <div className='w-1/2 border-r-2 border-black'>
+        <div className='w-3/5 border-r border-neutral-400'>
           <h1 className='text-4xl mb-9'>Users</h1>
-          <div className='grid grid-cols-2 space-y-2 space-x-2'>
+          <div className='grid grid-cols-2 space-y-2 space-x-4 px-2 pr-5'>
             {usersList &&
               usersList?.map((user, index)=>(
                   <div className='shadow-xl bg-white rounded flex items-center justify-between gap-2'>
@@ -28,7 +28,7 @@ function UsersList() {
                         <img src={user?.user_profile?.profile_pic} alt="" className='w-full h-full object-cover'/>
                       </div>
                       <div className=''>
-                        <h1 className='text-xl font-thin'>{user?.user_profile? user?.user_profile?.first_name + user?.user_profile?.first_name : 'No Profile' }</h1>
+                        <h1 className='text-xl font-thin'>{user?.user_profile? user?.user_profile?.first_name +' '+ user?.user_profile?.last_name : 'No Profile' }</h1>
                         <h1 className='font-semibold text-stone-600'>{user?.email}</h1>
                       </div>
                     </div>

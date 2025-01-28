@@ -1,10 +1,20 @@
-from rest_framework.serializers import ModelSerializer
+from rest_framework.serializers import ModelSerializer, SerializerMethodField
 from accounts.models import CustomUser, UserProfile
+from accounts.utils import create_presigned_url
 
 class UsersProfileSerializer(ModelSerializer):
+    profile_pic = SerializerMethodField()
     class Meta:
         model = UserProfile
-        fields = '__all__'
+        fields = ['id', 'user', 'first_name', 'last_name', 'profile_pic']
+
+    def get_profile_pic(self, obj):
+        if obj.profile_pic:
+            image_url = create_presigned_url(str(obj.profile_pic))
+            if image_url:
+                print(image_url, 'll')
+                return image_url
+        return None
 
 class UsersListingSerializer(ModelSerializer):
     user_profile = UsersProfileSerializer()

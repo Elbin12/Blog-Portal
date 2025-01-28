@@ -12,7 +12,7 @@ const api_key = process.env.REACT_APP_AXIOS_API;
 
 axiosInstance.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem("user_access_token");
+    const token = localStorage.getItem("access_token");
 
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;

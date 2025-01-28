@@ -1,16 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit"
 import { adminSignin, users } from "./AdminActions";
 
-const accessToken = localStorage.getItem('admin_access_token');
-const refreshToken = localStorage.getItem('admin_refresh_token');
-const adminDetails = JSON.parse(localStorage.getItem('adminDetails'));
+const accessToken = localStorage.getItem('access_token');
+const refreshToken = localStorage.getItem('refresh_token');
+const adminDetails = JSON.parse(localStorage.getItem('userDetails'));
 
 
 
 const initialState = {
     users : null,
     adminDetails: adminDetails? adminDetails : null,
-    accessToken: accessToken? accessToken : null,
+    admin_accessToken: accessToken? accessToken : null,
     refreshToken: refreshToken? refreshToken : null,
     loading : false,
     success : false,
@@ -24,7 +24,7 @@ const adminSlice = createSlice({
     reducers:{
         resetAll:(state)=>{
             state.adminDetails = null;
-            state.accessToken = null;
+            state.admin_accessToken = null;
             state.refreshToken = null;
             state.loading = false;
             state.success = false;
@@ -42,11 +42,10 @@ const adminSlice = createSlice({
         })
 
         .addCase(adminSignin.fulfilled, (state, action)=>{
-            console.log('hi');
-            
-            localStorage.setItem("admin_access_token", action?.payload?.admin_data?.access_token);
-            localStorage.setItem("admin_refresh_token", action?.payload?.admin_data?.refresh_token);
-            localStorage.setItem("adminDetails", JSON.stringify(action?.payload?.admin_data?.adminDetails));
+            console.log('hi admindfjnnjgfnjf');
+            localStorage.setItem("access_token", action?.payload?.admin_data?.access_token);
+            localStorage.setItem("refresh_token", action?.payload?.admin_data?.refresh_token);
+            localStorage.setItem("userDetails", JSON.stringify(action?.payload?.admin_data?.adminDetails));
             state.accessToken = action?.payload?.admin_data?.access_token;
             state.refreshToken = action?.payload?.admin_data?.refresh_token;
             state.adminDetails = action?.payload?.admin_data?.adminDetails;
@@ -58,7 +57,7 @@ const adminSlice = createSlice({
         })
 
         .addCase(users.pending, (state)=>{
-            state.pending = true;
+            state.loading = true;
         })
 
         .addCase(users.fulfilled, (state, action) => {

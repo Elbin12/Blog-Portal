@@ -5,7 +5,7 @@ export const signupService = async(data) =>{
     return await axiosInstance.post('signup/', data)
 }
 
-export const singinService = async(data) => {
+export const signinService = async(data) => {
     return await axiosInstance.post('signin/', data)
 }
 

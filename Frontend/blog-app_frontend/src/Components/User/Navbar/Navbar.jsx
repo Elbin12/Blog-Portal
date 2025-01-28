@@ -30,8 +30,8 @@ function Navbar() {
     }
 
     const SignOut = () => {
-      localStorage.removeItem('accessToken');
-      localStorage.removeItem('refreshToken');
+      localStorage.removeItem('access_oken');
+      localStorage.removeItem('refresh_oken');
       localStorage.removeItem('userDetails');
       dispatch(setUserDetails(null));
       setPopup('')
