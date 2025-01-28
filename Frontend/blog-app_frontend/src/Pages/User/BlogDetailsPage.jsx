@@ -6,7 +6,7 @@ function BlogDetailsPage() {
   return (
     <>
         <Navbar />
-        <BlogDetail/>
+        <BlogDetail/> 
     </>
   )
 }
