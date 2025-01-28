@@ -4,10 +4,10 @@ from rest_framework.views import APIView
 from accounts.models import CustomUser
 from rest_framework_simplejwt.tokens import RefreshToken
 from accounts.serializers import UserSerializer
-from rest_framework.generics import ListAPIView
+from rest_framework.generics import ListAPIView, RetrieveAPIView
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework import permissions
-from .serializers import UsersListingSerializer
+from .serializers import UsersListingSerializer, UserDetailsSerializer
 
 # Create your views here.
 
@@ -43,5 +43,32 @@ class SignIn(APIView):
 class UsersList(ListAPIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [permissions.IsAdminUser]
-    queryset = CustomUser.objects.filter(is_superuser=False)
+    queryset = CustomUser.objects.filter(is_superuser=False).order_by('date_joined')
     serializer_class = UsersListingSerializer
+
+class UserDetail(RetrieveAPIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [permissions.IsAdminUser]
+    queryset = CustomUser.objects.filter(is_superuser=False)
+    serializer_class = UserDetailsSerializer
+
+    def get_object(self):
+        user_id = self.kwargs.get('id')
+        return CustomUser.objects.get(id=user_id)
+    
+class UserBlock(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [permissions.IsAdminUser]
+
+    def post(self, request):
+        user_id = request.data.get('user_id')
+        try:
+            user = CustomUser.objects.get(id=user_id)
+            user.is_active = False if user.is_active else True
+            user.save()
+            return Response({'is_active':user.is_active}, status=200)
+        except CustomUser.DoesNotExist:
+            return Response({'error':'user not found'}, status=404)
+        except Exception as e:
+            return Response({'message':'Internal server error'}, status=500)
+        

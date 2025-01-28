@@ -1,13 +1,32 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { adminSignin } from '../../Features/Admin/AdminActions';
+import { toast } from 'sonner';
+import { resetErrors } from '../../Features/Admin/AdminSlice';
+import { useNavigate } from 'react-router-dom';
 
 function Signin() {
 
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
 
+  const error = useSelector(state=>state.admin.error)
+  const success = useSelector(state=>state.admin.success)
+
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  useEffect(()=>{
+    if(error){
+      console.log('errrer')
+      toast.error(error)
+    }
+    if(success){
+      toast.success('Sign in successfull');
+      navigate('/admin/home');
+    }
+    dispatch(resetErrors())
+  }, [success, error])
 
   const handleSubmit = ()=> {
     const data = {
