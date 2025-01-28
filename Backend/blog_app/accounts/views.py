@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
-from rest_framework.generics import ListCreateAPIView, CreateAPIView, UpdateAPIView
-from .models import CustomUser, UserProfile, Blog
-from .serializers import SignupSerializer, UserSerializer, UserProfileSerializer, BlogSerializer
+from rest_framework.generics import ListCreateAPIView, CreateAPIView, UpdateAPIView, RetrieveAPIView, ListAPIView
+from .models import CustomUser, UserProfile, Blog, Comments
+from .serializers import SignupSerializer, UserSerializer, UserProfileSerializer, BlogSerializer, CommentsSerializer
 from rest_framework.response import Response
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework import permissions
@@ -86,6 +86,9 @@ class CreateListBlog(ListCreateAPIView):
     queryset = Blog.objects.all()
     serializer_class = BlogSerializer
 
+    def get_queryset(self):
+        return Blog.objects.filter(user=self.request.user)
+
     def perform_create(self, serializer):
         if 'image' in self.request.FILES:
             file = self.request.FILES['image']
@@ -100,3 +103,33 @@ class CreateListBlog(ListCreateAPIView):
             except Exception as e:
                 raise ValidationError({"image": f"Failed to upload image: {str(e)}"})
         serializer.save(user=self.request.user, image=s3_file_path)
+
+class BlogList(ListAPIView):
+    authentication_classes = []
+    permission_classes = []
+    queryset = Blog.objects.all()
+    serializer_class = BlogSerializer
+
+
+class BlogDetails(RetrieveAPIView):
+    authentication_classes = []
+    permission_classes = [permissions.AllowAny]
+    queryset = Blog.objects.all()
+    serializer_class = BlogSerializer
+
+    def get_object(self):
+        blog_id = self.kwargs.get('id')
+        return Blog.objects.get(id=blog_id)
+    
+class CreateComment(ListCreateAPIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
+    queryset = Comments.objects.all()
+    serializer_class = CommentsSerializer
+
+    def perform_create(self, serializer):
+        request_data = self.request.data
+        if 'blog_id' in request_data:
+            blog_id = self.request.data.get('blog_id')
+            blog = Blog.objects.get(id=blog_id)
+            serializer.save(user=self.request.user, blog=blog)

@@ -63,7 +63,7 @@ function Profile() {
                 }
             </div>
             <div>
-                <h1 className='text-5xl'>{userDetails?.user_profile?.first_name ? userDetails?.user_profile?.first_name + userDetails?.user_profile?.last_name : 'No Profile'}</h1>
+                <h1 className='text-5xl'>{userDetails?.user_profile?.first_name ? userDetails?.user_profile?.first_name + ' ' + userDetails?.user_profile?.last_name : 'No Profile'}</h1>
                 <p className='mt-1 text- underline pl-1 cursor-pointer hover:text-stone-700 font-semibold' onClick={()=>setPopup('editProfile')}>Edit Profile</p>
             </div>
         </div>

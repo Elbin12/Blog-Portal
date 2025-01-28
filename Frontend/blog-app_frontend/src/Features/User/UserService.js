@@ -29,6 +29,18 @@ export const createBlogService = async(data) => {
     });
 };
 
-export const blogListingService = async(data) => {
+export const blogListingService = async() => {
     return await axiosInstance.get('blog/create-list/')
+};
+
+export const BlogDetailsService = async(id) => {
+    return await axiosInstance.get(`blog/${id}/`)
 }
+
+export const BlogsService = async() =>{
+    return await axiosInstance.get('blogs/');
+};
+
+export const createCommentService = async(data) => {
+    return await axiosInstance.post('comment/create/', data);
+};

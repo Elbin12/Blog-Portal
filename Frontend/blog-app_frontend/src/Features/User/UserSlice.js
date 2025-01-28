@@ -1,5 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit';
-import { profileUpdate, userSignin, signup, imageUpdate, createBlog, blogList } from './UserActions';
+import { profileUpdate, userSignin, signup, imageUpdate, createBlog, blogList, allBLogs, blogDetails, createComment } from './UserActions';
 
 
 const access_token = localStorage.getItem("user_access_token");
@@ -16,7 +16,9 @@ const initialState = {
     success:false,
     error:'',
     message:'',
-    blogs: []
+    blogs: [],
+    selectedBlog:'',
+    allBlogs: [],
 };
 
 const userSlice = createSlice({
@@ -54,17 +56,6 @@ const userSlice = createSlice({
         .addCase(userSignin.pending, (state)=>{
             state.loading = true;
         })
-
-        // .addCase(userSignin.fulfilled, (state, action) => {
-        //     const userData = action?.payload?.user_data;
-        //     if (userData) {
-        //         state.accessToken = userData.access_token;
-        //         state.refreshToken = userData.refresh_token;
-        //         state.userDetails = userData.userDetails;
-        //     } else {
-        //         console.error("No user data available.");
-        //     }
-        // })
 
         .addCase(userSignin.fulfilled, (state, action)=>{
             const userData = action?.payload?.user_data;
@@ -125,6 +116,42 @@ const userSlice = createSlice({
         })
 
         .addCase(blogList.rejected, (state, action) => {
+            state.error = action?.payload;
+        })
+
+        .addCase(blogDetails.pending, (state) => {
+            state.pending = true;
+        })
+
+        .addCase(blogDetails.fulfilled, (state, action) => {
+            state.selectedBlog = action?.payload;
+        })
+
+        .addCase(blogDetails.rejected, (state, action) => {
+            state.error = action?.payload;
+        })
+
+        .addCase(allBLogs.pending, (state) => {
+            state.pending = true;
+        })
+
+        .addCase(allBLogs.fulfilled, (state, action) => {
+            state.allBlogs = action?.payload;
+        })
+
+        .addCase(allBLogs.rejected, (state, action) => {
+            state.error = action?.payload;
+        })
+
+        .addCase(createComment.pending, (state)=>{
+            state.pending = true;
+        })
+
+        .addCase(createComment.fulfilled, (state, action) => {
+            state.selectedBlog = {...state.selectedBlog, comments: [...state.selectedBlog.comments, action?.payload]}
+        })
+
+        .addCase(createComment.rejected, (state, action)=>{
             state.error = action?.payload;
         })
     }

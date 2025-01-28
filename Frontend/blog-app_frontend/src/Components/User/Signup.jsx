@@ -62,9 +62,9 @@ function Signup({setActivePopup}) {
               {shwPswrdInpts &&
                 <div>
                   <h1 className='mb-1 text-xs font-semibold text-gray-900'>Password</h1>
-                  <input type="email" className='outline-none border px-2 py-2 w-full rounded mb-2' onChange={(e)=>{setPassword(e.target.value)}}/>
+                  <input type="password" className='outline-none border px-2 py-2 w-full rounded mb-2' onChange={(e)=>{setPassword(e.target.value)}}/>
                   <h1 className='mb-1 text-xs font-semibold text-gray-900'>Confirm password</h1>
-                  <input type="email" className='outline-none border px-2 py-2 w-full rounded mb-4' onChange={(e)=>{setConfirmPassword(e.target.value)}}/>
+                  <input type="password" className='outline-none border px-2 py-2 w-full rounded mb-4' onChange={(e)=>{setConfirmPassword(e.target.value)}}/>
                 </div>
               }
               <div>

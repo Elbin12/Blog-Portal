@@ -1,5 +1,5 @@
 from rest_framework.serializers import ModelSerializer, ValidationError, FileField, SerializerMethodField
-from .models import CustomUser, UserProfile, Blog
+from .models import CustomUser, UserProfile, Blog, Comments
 import os
 from .utils import upload_fileobj_to_s3, create_presigned_url
 from datetime import datetime
@@ -28,10 +28,11 @@ class UserProfileSerializer(ModelSerializer):
         }
 
     def get_profile_pic(self, obj):
-        image_url = create_presigned_url(str(obj.profile_pic))
-        if image_url:
-            print(image_url, 'll')
-            return image_url
+        if obj.profile_pic:
+            image_url = create_presigned_url(str(obj.profile_pic))
+            if image_url:
+                print(image_url, 'll')
+                return image_url
         return None
 
     def validate(self, value):
@@ -62,11 +63,21 @@ class UserSerializer(ModelSerializer):
         model = CustomUser
         fields = ['id', 'email', 'is_active', 'date_joined', 'user_profile', 'is_superuser']
 
+class CommentsSerializer(ModelSerializer):
+    user = UserSerializer(read_only=True)
+    class Meta:
+        model = Comments
+        fields = ['id', 'comment', 'created_at', 'user']
+        read_only_fields = ['blog', 'user']
+
 class BlogSerializer(ModelSerializer):
     image = SerializerMethodField()
+    user = UserSerializer()
+    comments = CommentsSerializer(source='blog_comment', many=True)
+    comments_count = SerializerMethodField()
     class Meta:
         model = Blog
-        fields = ['id', 'user', 'heading', 'sub_heading', 'body', 'image', 'like_count', 'unlike_count', 'created_at', 'updated_at']
+        fields = ['id', 'user', 'heading', 'sub_heading', 'body', 'image', 'like_count', 'unlike_count', 'created_at', 'updated_at', 'user', 'comments', 'comments_count']
         read_only_fields = ['user', 'like_count', 'unlike_count', 'created_at', 'updated_at', 'image']
 
     def get_image(self, obj):
@@ -75,3 +86,6 @@ class BlogSerializer(ModelSerializer):
             print(image_url, 'll')
             return image_url
         return None
+    
+    def get_comments_count(self, obj):
+        return obj.blog_comment.count()
