@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { BlogDetailsService, blogListingService, BlogsService, createBlogService, createCommentService, imageUploadService, profileUpdateService, signupService, signinService, editBlogService } from "./UserService";
+import { BlogDetailsService, blogListingService, BlogsService, createBlogService, createCommentService, imageUploadService, profileUpdateService, signupService, signinService, editBlogService, updateInteractionsService } from "./UserService";
 
 export const signup = createAsyncThunk(
     "signup", 
@@ -128,6 +128,18 @@ export const editBlog = createAsyncThunk(
     async(data, {rejectWithValue}) => {
         try{
             const response = await editBlogService(data);
+            return response.data;
+        }catch(error){
+            return rejectWithValue(error?.response?.data);
+        }
+    }
+);
+
+export const updateInteractions = createAsyncThunk(
+    'updateInteractions',
+    async(data, {rejectWithValue}) => {
+        try{
+            const response = await updateInteractionsService(data);
             return response.data;
         }catch(error){
             return rejectWithValue(error?.response?.data);

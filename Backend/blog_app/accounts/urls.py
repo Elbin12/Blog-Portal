@@ -9,6 +9,7 @@ urlpatterns = [
     path('profile/update/', views.ProfileUpdate.as_view()),
     path('blog/create-list/', views.CreateListBlog.as_view()),
     path('blog/edit/', views.UpdateBlog.as_view()),
+    path('blog/interactions/', views.UpdateInteractions.as_view()),
     path('blog/<int:id>/', views.BlogDetails.as_view()),
     path('blogs/', views.BlogList.as_view()),
     path('comment/create/', views.CreateComment.as_view()),

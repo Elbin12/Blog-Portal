@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { blogDetails } from '../../../Features/User/UserActions';
-import { BiDislike, BiSolidLike  } from "react-icons/bi";
+import { blogDetails, updateInteractions } from '../../../Features/User/UserActions';
+import { BiDislike, BiLike, BiSolidDislike, BiSolidLike  } from "react-icons/bi";
 import { FaComment } from "react-icons/fa";
 import BlogComments from './BlogComments';
 
@@ -28,6 +28,24 @@ function BlogDetail() {
         })
       }
 
+    const handleLike = ()=> {
+      const data = {
+        'blog_id' : blog?.id,
+        'is_liked': blog?.is_liked? false : true,
+        'is_disliked':blog?.is_disliked===null?false:blog?.is_disliked&& false,
+      }
+      dispatch(updateInteractions(data));
+    }
+
+    const handleDisike = ()=> {
+      const data = {
+        'blog_id' : blog?.id,
+        'is_liked': blog?.is_liked===null?false:blog?.is_liked&& false,
+        'is_disliked':blog?.is_disliked? false:true,
+      }
+      dispatch(updateInteractions(data));
+    }
+
   return (
     <div className='px-36 py-6'>
       <div className='space-y-9'>
@@ -45,12 +63,20 @@ function BlogDetail() {
           </div>
         </div>
         <div className='text-lg flex gap-4 border-b border-t border-gray-100 py-1'>
-          <div className='flex items-center gap-1'>
-            <BiSolidLike  className='text-lg'/>
+          <div className='flex items-center gap-1' onClick={handleLike}>
+            {blog?.is_liked?
+              <BiSolidLike className='text-lg text-lime-500'/>
+              :
+              <BiLike  className='text-lg'/>
+            }
             <p className='text-gray-600'>{blog?.like_count}</p>
           </div>
-          <div className='flex items-center gap-1'>
-            <BiDislike className='text-lg'/>
+          <div className='flex items-center gap-1' onClick={handleDisike}>
+            {blog?.is_disliked?
+              <BiSolidDislike className='text-lg text-gray-500'/>
+              :
+              <BiDislike/>
+            }
             <p className='text-gray-600'>{blog?.unlike_count}</p>
           </div>
           <div className='flex items-center gap-1 cursor-pointer'>

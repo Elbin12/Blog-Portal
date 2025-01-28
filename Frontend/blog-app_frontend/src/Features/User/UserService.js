@@ -48,3 +48,7 @@ export const createCommentService = async(data) => {
 export const editBlogService = async(data) => {
     return await axiosInstance.put('blog/edit/', data);
 };
+
+export const updateInteractionsService = async(data) => {
+    return await axiosInstance.put('blog/interactions/', data);
+};

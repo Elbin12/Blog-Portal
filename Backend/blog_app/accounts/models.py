@@ -61,10 +61,15 @@ class Blog(models.Model):
     sub_heading = models.CharField(max_length=100)
     body = models.TextField()
     image = models.CharField(max_length=200)
-    like_count = models.IntegerField(default=0)
-    unlike_count = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+class Interactions(models.Model):
+    blog = models.ForeignKey(Blog, on_delete=models.CASCADE, related_name='blog_interactions')
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='blog_interactions')
+    is_liked = models.BooleanField(default=False)
+    is_disliked = models.BooleanField(default=False)
+    
 
 class Comments(models.Model):
     blog = models.ForeignKey(Blog, on_delete=models.CASCADE, related_name='blog_comment')

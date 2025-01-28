@@ -1,5 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit';
-import { profileUpdate, userSignin, signup, imageUpdate, createBlog, blogList, allBLogs, blogDetails, createComment, editBlog } from './UserActions';
+import { profileUpdate, userSignin, signup, imageUpdate, createBlog, blogList, allBLogs, blogDetails, createComment, editBlog, updateInteractions } from './UserActions';
 
 
 const access_token = localStorage.getItem("access_token");
@@ -163,6 +163,16 @@ const userSlice = createSlice({
         })
 
         .addCase(editBlog.rejected, (state, action) => {
+            state.error = action?.payload;
+        })
+
+        .addCase(updateInteractions.fulfilled, (state, action) => {
+            state.selectedBlog = {...state.selectedBlog, is_liked:action?.payload?.is_liked, 
+                is_disliked:action?.payload?.is_disliked, like_count:action?.payload?.like_count,
+                unlike_count:action?.payload?.unlike_count};
+        })
+
+        .addCase(updateInteractions.rejected, (state, action) => {
             state.error = action?.payload;
         })
     }

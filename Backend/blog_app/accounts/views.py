@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.generics import ListCreateAPIView, CreateAPIView, UpdateAPIView, RetrieveAPIView, ListAPIView
-from .models import CustomUser, UserProfile, Blog, Comments
-from .serializers import SignupSerializer, UserSerializer, UserProfileSerializer, BlogSerializer, CommentsSerializer
+from .models import CustomUser, UserProfile, Blog, Comments, Interactions
+from .serializers import SignupSerializer, UserSerializer, UserProfileSerializer, BlogSerializer, CommentsSerializer, InteractionSerializer
 from rest_framework.response import Response
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework import permissions
@@ -125,14 +125,14 @@ class UpdateBlog(UpdateAPIView):
         return Response(serializer.errors, status=400)
 
 class BlogList(ListAPIView):
-    authentication_classes = []
-    permission_classes = []
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [permissions.AllowAny]
     queryset = Blog.objects.all()
     serializer_class = BlogSerializer
 
 
 class BlogDetails(RetrieveAPIView):
-    authentication_classes = []
+    authentication_classes = [JWTAuthentication]
     permission_classes = [permissions.AllowAny]
     queryset = Blog.objects.all()
     serializer_class = BlogSerializer
@@ -153,3 +153,15 @@ class CreateComment(ListCreateAPIView):
             blog_id = self.request.data.get('blog_id')
             blog = Blog.objects.get(id=blog_id)
             serializer.save(user=self.request.user, blog=blog)
+
+class UpdateInteractions(UpdateAPIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
+    queryset = Interactions.objects.all()
+    serializer_class = InteractionSerializer
+
+    def get_object(self):
+        blog_id = self.request.data.get('blog_id')
+        blog = Blog.objects.get(id=blog_id)
+        interaction, created = Interactions.objects.get_or_create(user=self.request.user, blog=blog)
+        return interaction

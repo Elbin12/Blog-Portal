@@ -1,5 +1,5 @@
 from rest_framework.serializers import ModelSerializer, ValidationError, FileField, SerializerMethodField
-from .models import CustomUser, UserProfile, Blog, Comments
+from .models import CustomUser, UserProfile, Blog, Comments, Interactions
 import os
 from .utils import upload_fileobj_to_s3, create_presigned_url
 from datetime import datetime
@@ -75,10 +75,34 @@ class BlogSerializer(ModelSerializer):
     user = UserSerializer(read_only=True)
     comments = CommentsSerializer(source='blog_comment', many=True, read_only=True)
     comments_count = SerializerMethodField()
+    is_liked = SerializerMethodField()
+    is_disliked = SerializerMethodField()
+    like_count = SerializerMethodField()
+    unlike_count = SerializerMethodField()
     class Meta:
         model = Blog
-        fields = ['id', 'user', 'heading', 'sub_heading', 'body', 'image', 'like_count', 'unlike_count', 'created_at', 'updated_at', 'user', 'comments', 'comments_count']
+        fields = ['id', 'user', 'heading', 'sub_heading', 'body', 'image', 'like_count', 'unlike_count', 'created_at', 'updated_at', 'user', 'comments', 'comments_count', 'is_liked', 'is_disliked']
         read_only_fields = ['user', 'like_count', 'unlike_count', 'created_at', 'updated_at', 'image', 'comments']
+
+    def get_like_count(self, obj):
+        return Interactions.objects.filter(blog=obj, is_liked=True).count()
+    
+    def get_unlike_count(self, obj):
+        return Interactions.objects.filter(blog=obj, is_disliked=True).count()
+
+    def get_is_liked(self, obj):
+        request = self.context.get('request')
+        if not request or not request.user.is_authenticated:
+            return None
+        interaction = Interactions.objects.filter(user=request.user, blog=obj).first()
+        return interaction.is_liked if interaction else None
+    
+    def get_is_disliked(self, obj):
+        request = self.context.get('request')
+        if not request or not request.user.is_authenticated:
+            return None
+        interaction = Interactions.objects.filter(user=request.user, blog=obj).first()
+        return interaction.is_disliked if interaction else None
 
     def get_image(self, obj):
         image_url = create_presigned_url(str(obj.image))
@@ -106,3 +130,16 @@ class BlogSerializer(ModelSerializer):
                 raise ValidationError(f"File upload failed: {str(e)}")
 
         return super().update(instance, validated_data)
+    
+class InteractionSerializer(ModelSerializer):
+    like_count = SerializerMethodField()
+    unlike_count = SerializerMethodField()
+    class Meta:
+        model = Interactions
+        fields = ['is_liked', 'is_disliked', 'like_count', 'unlike_count']
+
+    def get_like_count(self, obj):
+        return Interactions.objects.filter(blog=obj.blog, is_liked=True).count()
+    
+    def get_unlike_count(self, obj):
+        return Interactions.objects.filter(blog=obj.blog, is_disliked=True).count()
