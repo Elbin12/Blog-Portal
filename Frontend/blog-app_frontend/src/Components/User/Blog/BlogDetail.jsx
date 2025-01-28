@@ -32,10 +32,11 @@ function BlogDetail() {
     <div className='px-36 py-6'>
       <div className='space-y-9'>
         <div className='flex items-center justify-between pr-11'>
-          <div className='space-y-6'>
-            <h1 className='text-8xl'>{blog?.heading}</h1>
+          <div className='space-y-6 '>
+            <h1 className='text-6xl font-semibold'>{blog?.heading}</h1>
+            <h1 className='text-5xl text-neutral-800'>{blog?.sub_heading}</h1>
           </div>
-          <div className='flex flex-col items-end'>
+          <div className='flex flex-col items-end w-1/4'>
             <div className='flex items-center py-1 gap-2 cursor-pointer'>
                 <img src={blog?.user?.user_profile?.profile_pic} alt="" className='w-9 h-9 rounded-full object-cover'/>
                 <h1 className='text- rounded-full'>{blog?.user?.user_profile?.first_name} {blog?.user?.user_profile?.last_name}</h1>
@@ -61,7 +62,6 @@ function BlogDetail() {
             <div className='w-full h-[35rem] overflow-hidden'>
                 <img src={blog?.image} alt="" className='object-cover'/>
             </div>
-            <h1 className='text-5xl'>{blog?.sub_heading}</h1>
             <p>{blog?.body}</p>
         </div>
         <BlogComments blog={blog&&blog}/>

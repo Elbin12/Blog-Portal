@@ -72,13 +72,13 @@ class CommentsSerializer(ModelSerializer):
 
 class BlogSerializer(ModelSerializer):
     image = SerializerMethodField()
-    user = UserSerializer()
-    comments = CommentsSerializer(source='blog_comment', many=True)
+    user = UserSerializer(read_only=True)
+    comments = CommentsSerializer(source='blog_comment', many=True, read_only=True)
     comments_count = SerializerMethodField()
     class Meta:
         model = Blog
         fields = ['id', 'user', 'heading', 'sub_heading', 'body', 'image', 'like_count', 'unlike_count', 'created_at', 'updated_at', 'user', 'comments', 'comments_count']
-        read_only_fields = ['user', 'like_count', 'unlike_count', 'created_at', 'updated_at', 'image']
+        read_only_fields = ['user', 'like_count', 'unlike_count', 'created_at', 'updated_at', 'image', 'comments']
 
     def get_image(self, obj):
         image_url = create_presigned_url(str(obj.image))

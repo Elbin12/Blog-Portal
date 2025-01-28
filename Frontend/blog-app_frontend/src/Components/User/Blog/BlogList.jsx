@@ -15,16 +15,16 @@ function BlogList({blogs}) {
   console.log(blogs,typeof(blogs), 'kk')
   return (
     <div className=' px-56 py-9'>
-      <div>
+      <div className='space-y-6'>
         {blogs?.map((blog, index)=>(
           <div key={index} className='flex flex-col gap-3 w-3/4 border-b py-2 cursor-pointer' onClick={()=>navigate(`/blog/${blog?.id}`)}>
             <div className='flex w-full gap-9 justify-between'>
               <div className='space-y-2'>
-                <h1 className='text-5xl'>{blog?.heading}</h1>
-                <h1 className='text-3xl'>{blog?.sub_heading}</h1>
-                <p className='text-lg'>{blog?.body} bf</p>
+                <h1 className='text-4xl font-bold'>{blog?.heading?.length > 60 ? `${blog.heading.slice(0, 60)} ...` : blog?.heading}</h1>
+                <h1 className='text-2xl font-semibold text-neutral-700'>{blog?.sub_heading}</h1>
+                <p className='text-sm'>{blog?.body?.length > 170 ? `${blog.body.slice(0, 170)} ...` : blog?.body}</p>
               </div>
-              <div className='w-1/4 p-3'>
+              <div className='min-w-[15rem] max-w-[15rem]  h-36 p-3 overflow-hidden'>
                 <img src={blog.image} alt="" className='w-full h-full object-cover'/>
               </div>
             </div>

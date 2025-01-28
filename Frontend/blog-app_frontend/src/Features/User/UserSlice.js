@@ -36,6 +36,10 @@ const userSlice = createSlice({
         },
         setUserDetails: (state, action)=>{
             state.userDetails = action.payload;
+        },
+        resetErrors: (state, action) => {
+            state.success = false;
+            state.error = '';
         }
     },
     extraReducers(builder){
@@ -60,13 +64,12 @@ const userSlice = createSlice({
         .addCase(userSignin.fulfilled, (state, action)=>{
             const userData = action?.payload?.user_data;
             localStorage.setItem("access_token", userData?.access_token);
-            console.log("kkk");
             localStorage.setItem("refresh_token", userData?.refresh_token);
             localStorage.setItem("userDetails", JSON.stringify(userData?.userDetails));
-            console.log('kkk',action?.payload?.user_data?.access_token, )
             state.accessToken = userData?.access_token;
             state.refreshToken = userData?.refresh_token;
             state.userDetails = userData?.userDetails;
+            state.success = true;
         })
 
         .addCase(userSignin.rejected, (state, action) => {
@@ -103,6 +106,7 @@ const userSlice = createSlice({
         })
 
         .addCase(createBlog.rejected, (state, action) => {
+            console.log(action?.payload, 'fkfk')
             state.error = action?.payload;
         })
 
@@ -156,6 +160,6 @@ const userSlice = createSlice({
     }
 })
 
-export const {resetAll, setUserDetails} = userSlice.actions;
+export const {resetAll, setUserDetails, resetErrors} = userSlice.actions;
 
 export default userSlice.reducer;

@@ -1,7 +1,8 @@
-import React, { useRef, useState } from 'react'
-import {useDispatch} from 'react-redux'
+import React, { useEffect, useRef, useState } from 'react'
+import {useDispatch, useSelector} from 'react-redux'
 import { MdEdit } from 'react-icons/md';
 import { createBlog } from '../../../Features/User/UserActions';
+import { toast } from 'sonner';
 
 function CreateBlog() {
 
@@ -13,6 +14,22 @@ function CreateBlog() {
 
   const inputRef = useRef();
   const dispatch = useDispatch();
+
+  const error = useSelector(state=>state.user.error);
+  const success = useSelector(state=>state.user.success);
+  
+
+  useEffect(()=>{
+    if (error){
+      if (error && typeof error === 'object') {
+        Object.keys(error).forEach((field) => {
+          console.log(`${field}: ${error[field].join(', ')}`);
+          toast.error(`${field}: ${error[field].join(', ')}`)
+        });
+      }
+      console.log(error,'kkddd', typeof(error))
+    }
+  }, [error, success])
 
   const handleImg = (e)=> {
     const file = e.target.files[0]

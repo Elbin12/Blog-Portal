@@ -25,4 +25,32 @@ axiosInstance.interceptors.request.use(
   }
 );
 
+axiosInstance.interceptors.response.use(
+  response => response,
+  async (error) => {
+      if (error.response && error.response.status === 401) {
+        try{
+          const refreshToken = localStorage.getItem("refresh_token");
+
+          if (!refreshToken) {
+            throw new Error("No refresh token available");
+          }
+
+          const { data } = await axiosInstance.post("api/token/refresh/", {
+            refresh: refreshToken,
+          });
+
+          localStorage.setItem("access_token", data.access);
+
+          error.config.headers["Authorization"] = `Bearer ${data.access}`;
+          return axiosInstance.request(error.config);
+        }catch (refreshError) {
+          console.error("Failed to refresh token:", refreshError);
+          return Promise.reject(refreshError);
+        }
+      }
+      return Promise.reject(error);
+  }
+);
+
 export {BASE_URL, axiosInstance}

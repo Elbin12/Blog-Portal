@@ -2,17 +2,37 @@ import React, { useEffect, useState } from 'react'
 import { IoMdClose } from 'react-icons/io'
 import { useDispatch, useSelector } from 'react-redux';
 import { userSignin } from '../../Features/User/UserActions';
+import { toast } from 'sonner';
+import { useNavigate } from 'react-router-dom';
+import { resetErrors } from '../../Features/User/UserSlice';
 
 function Signin({setActivePopup}) {
   const [email, setEmail] = useState();
   const [psword, setPswrd] = useState();
-  const [error, setError] = useState();
 
   const dispatch = useDispatch();
 
+  const success = useSelector(state=>state.user.success)
+  const error = useSelector(state=>state.user.error)
+
+  console.log(error, 'eerrrr')
+
+  useEffect(()=>{
+    if(error){
+      console.log('errrer')
+      toast.error(error)
+    }
+    if(success){
+      toast.success('sign in successfull');
+      setActivePopup('');
+    }
+    
+    dispatch(resetErrors())
+  }, [success, error])
+
   const handleSubmit = () => {
     if (!email || !psword){
-      setError('Email and password are required.');
+      toast.error('Email and password are required.');
       return;
     }
     console.log('vannn')

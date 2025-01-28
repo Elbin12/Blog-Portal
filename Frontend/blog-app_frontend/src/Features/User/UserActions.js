@@ -23,7 +23,7 @@ export const userSignin = createAsyncThunk(
             return response.data
         }catch(error){
             console.log(error, 'signin error')
-            return rejectWithValue(error?.response?.data?.error)
+            return rejectWithValue(error?.response?.data?.message)
         }
     }
 );
@@ -66,7 +66,7 @@ export const createBlog = createAsyncThunk(
             console.log(response, 'createBlog')
             return response.data;
         }catch(error){
-            return rejectWithValue(error?.response?.data?.error);
+            return rejectWithValue(error?.response?.data);
         }
     }
 );

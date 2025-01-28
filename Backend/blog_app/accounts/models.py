@@ -57,8 +57,8 @@ class UserProfile(models.Model):
 
 class Blog(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='user_blog')
-    heading = models.CharField(max_length=50)
-    sub_heading = models.CharField(max_length=50)
+    heading = models.CharField(max_length=150)
+    sub_heading = models.CharField(max_length=100)
     body = models.TextField()
     image = models.CharField(max_length=200)
     like_count = models.IntegerField(default=0)
