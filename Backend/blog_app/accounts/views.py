@@ -104,6 +104,26 @@ class CreateListBlog(ListCreateAPIView):
                 raise ValidationError({"image": f"Failed to upload image: {str(e)}"})
         serializer.save(user=self.request.user, image=s3_file_path)
 
+class UpdateBlog(UpdateAPIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
+    queryset = Blog.objects.all()
+    serializer_class = BlogSerializer
+
+    def get_object(self):
+        blog_id = self.request.data.get('blog_id')
+        blog = Blog.objects.get(id=blog_id)
+        return blog
+    
+    def update(self, request, *args, **kwargs):
+        blog = self.get_object()
+        serializer = self.get_serializer(blog, data=request.data, partial=True)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=200)
+        return Response(serializer.errors, status=400)
+
 class BlogList(ListAPIView):
     authentication_classes = []
     permission_classes = []

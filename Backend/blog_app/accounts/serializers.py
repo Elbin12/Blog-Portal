@@ -89,3 +89,20 @@ class BlogSerializer(ModelSerializer):
     
     def get_comments_count(self, obj):
         return obj.blog_comment.count()
+    
+    def update(self, instance, validated_data):
+        if 'image' in self.context['request'].FILES:
+            file = self.context['request'].FILES['image']
+            
+            file_extension = os.path.splitext(file.name)[1]
+            current_time_str = datetime.now().strftime("%Y%m%d_%H%M%S")
+            unique_filename = f"{current_time_str}{file_extension}"
+            s3_file_path = f"users/blog/image/{unique_filename}"
+
+            try:
+                upload_fileobj_to_s3(file, s3_file_path)
+                validated_data['image'] = s3_file_path
+            except Exception as e:
+                raise ValidationError(f"File upload failed: {str(e)}")
+
+        return super().update(instance, validated_data)

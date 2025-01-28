@@ -1,5 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit';
-import { profileUpdate, userSignin, signup, imageUpdate, createBlog, blogList, allBLogs, blogDetails, createComment } from './UserActions';
+import { profileUpdate, userSignin, signup, imageUpdate, createBlog, blogList, allBLogs, blogDetails, createComment, editBlog } from './UserActions';
 
 
 const access_token = localStorage.getItem("access_token");
@@ -155,6 +155,14 @@ const userSlice = createSlice({
         })
 
         .addCase(createComment.rejected, (state, action)=>{
+            state.error = action?.payload;
+        })
+
+        .addCase(editBlog.fulfilled, (state) => {
+            state.success = true;
+        })
+
+        .addCase(editBlog.rejected, (state, action) => {
             state.error = action?.payload;
         })
     }

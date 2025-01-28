@@ -1,19 +1,28 @@
 import React, { useEffect, useRef, useState } from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import { MdEdit } from 'react-icons/md';
-import { createBlog } from '../../../Features/User/UserActions';
+import { createBlog, editBlog } from '../../../Features/User/UserActions';
 import { toast } from 'sonner';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { resetErrors } from '../../../Features/User/UserSlice';
 
-function CreateBlog() {
+function CreateBlog({mode}) {
+
+  const location = useLocation();
+
+  const blog  = location.state
+
+  console.log(blog, 'bloggggg')
 
   const [pic, setPic] = useState();
-  const [img, setImg] = useState();
-  const [heading, setHeading] = useState();
-  const [subHeading, setSubHeading] = useState();
-  const [textBody, settextBody] = useState();
+  const [img, setImg] = useState(mode==='edit'?blog?.image:'');
+  const [heading, setHeading] = useState(mode==='edit'?blog?.heading:'');
+  const [subHeading, setSubHeading] = useState(mode==='edit'?blog?.sub_heading:'');
+  const [textBody, settextBody] = useState(mode==='edit'?blog?.body:'');
 
   const inputRef = useRef();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const error = useSelector(state=>state.user.error);
   const success = useSelector(state=>state.user.success);
@@ -29,6 +38,11 @@ function CreateBlog() {
       }
       console.log(error,'kkddd', typeof(error))
     }
+
+    if(success){
+      navigate('/blogs');
+    }
+    dispatch(resetErrors())
   }, [error, success])
 
   const handleImg = (e)=> {
@@ -42,15 +56,24 @@ function CreateBlog() {
   }
 
   const handleSubmit = ()=> {
-    const data = {
-      image : pic,
-      heading: heading,
-      sub_heading: subHeading,
-      body: textBody
+    if(mode === 'create'){
+      const data = {
+        image : pic,
+        heading: heading,
+        sub_heading: subHeading,
+        body: textBody
+      }
+      dispatch(createBlog(data));
+    }else if(mode==='edit'){
+      const data = {
+        image : pic,
+        heading: heading,
+        sub_heading: subHeading,
+        body: textBody,
+        'blog_id':blog?.id
+      }
+      dispatch(editBlog(data));
     }
-    console.log('lk', data);
-    
-    dispatch(createBlog(data));
   }
 
   return (
@@ -73,9 +96,10 @@ function CreateBlog() {
               className="text-5xl font-bold bg-transparent w-full outline-none border-b py-3 border-gray-300 mb-4"
               placeholder="Add Title"
               onChange={(e)=>setHeading(e.target.value)}
+              value={heading}
             />
             {img &&
-              <div className='relative w-full h-30rem]'>
+              <div className='relative w-full h-[30rem]'>
                 <div className='absolute w-full flex justify-end p-4 cursor-pointer' onClick={()=>inputRef.current.click()}>
                   <MdEdit className='text-white text-2xl'/>
                 </div>
@@ -87,11 +111,13 @@ function CreateBlog() {
               className="text-2xl font-normal bg-transparent w-full outline-none border-b py-3 border-gray-300 mb-8"
               placeholder="Add Subheading"
               onChange={(e)=>setSubHeading(e.target.value)}
+              value={subHeading}
             />
             <textarea
               className="w-full h-64 p-4 bg-white border border-gray-300 rounded-md shadow-sm outline-none focus:border-transparent"
               placeholder="Write your blog post here..."
               onChange={(e)=>settextBody(e.target.value)}
+              value={textBody}
             />
           </div>
         </div>

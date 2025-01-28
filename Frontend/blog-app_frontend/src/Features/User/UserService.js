@@ -45,6 +45,6 @@ export const createCommentService = async(data) => {
     return await axiosInstance.post('comment/create/', data);
 };
 
-export const tokenRefreshService = async(data) => {
-    return await axiosInstance.post('/api/token/refresh/', data);
-}
+export const editBlogService = async(data) => {
+    return await axiosInstance.put('blog/edit/', data);
+};
