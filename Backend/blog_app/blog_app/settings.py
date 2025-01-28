@@ -30,7 +30,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['13.60.26.46', 'blog-portal-hax7.vercel.app']
+ALLOWED_HOSTS = ['13.60.26.46', 'blog-portal-hax7.vercel.app', 'blog-app.elbin.site']
 
 
 # Application definition
@@ -64,6 +64,8 @@ MIDDLEWARE = [
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:3000',
     'https://blog-portal-hax7.vercel.app'
+    'http://blog-app.elbin.site'
+    'https://blog-app.elbin.site'
 ]
 
 
