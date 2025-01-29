@@ -63,10 +63,10 @@ MIDDLEWARE = [
 
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:3000',
-    'https://blog-portal-hax7.vercel.app'
+    'https://blog-portal-hax7.vercel.app',
     "https://www.blog-app.elbin.site",
-    'https://blog-app.elbin.site'
-    'http://blog-app.elbin.site'
+    'https://blog-app.elbin.site',
+    'http://blog-app.elbin.site',
 ]
 
 
