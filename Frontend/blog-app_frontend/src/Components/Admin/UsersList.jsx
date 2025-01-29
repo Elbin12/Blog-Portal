@@ -19,7 +19,7 @@ function UsersList() {
 
     console.log(usersList, 'users')
   return (
-    <div className='px-28 pt-11  h-screen'>
+    <div className='px-28 pt-24'>
       <div className='flex gap-9'>
         <div className='w-3/5 border-r border-neutral-400'>
           <h1 className='text-4xl mb-9'>Users</h1>

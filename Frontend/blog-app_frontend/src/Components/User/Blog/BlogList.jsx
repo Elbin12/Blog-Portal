@@ -17,7 +17,7 @@ function BlogList({blogs}) {
 
   console.log(blogs,typeof(blogs), 'kk')
   return (
-    <div className=' px-56 py-9'>
+    <div className=' px-56 py-9 pt-28'>
       <div className='space-y-6'>
         {blogs?.map((blog, index)=>(
           <div key={index} className='flex flex-col gap-3 w-3/4 border-b py-2 cursor-pointer'>
@@ -37,7 +37,7 @@ function BlogList({blogs}) {
             <div className='flex w-full gap-9 justify-between' onClick={()=>navigate(`/blog/${blog?.id}`)}>
               <div className='space-y-2'>
                 <h1 className='text-4xl font-bold'>{blog?.heading?.length > 60 ? `${blog.heading.slice(0, 60)} ...` : blog?.heading}</h1>
-                <h1 className='text-2xl font-semibold text-neutral-700'>{blog?.sub_heading}</h1>
+                <h1 className='text-2xl font-semibold text-neutral-700'>{blog?.sub_heading?.length > 40 ? `${blog.sub_heading.slice(0, 40)} ...` : blog?.sub_heading}</h1>
                 <p className='text-sm'>{blog?.body?.length > 170 ? `${blog.body.slice(0, 170)} ...` : blog?.body}</p>
               </div>
               <div className='min-w-[15rem] max-w-[15rem]  h-36 py-3 overflow-hidden'>

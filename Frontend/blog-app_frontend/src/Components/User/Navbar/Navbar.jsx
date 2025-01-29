@@ -44,12 +44,12 @@ function Navbar() {
         {activePopup === 'signup' && <Signup setActivePopup={setActivePopup}/>}
         {activePopup === 'signin' && <Signin setActivePopup={setActivePopup}/>}
         {popup &&
-          <div className="fixed right-11 mt-16 w-60 bg-white border border-gray-200 rounded-lg shadow-lg py-2">
+          <div className="fixed right-11 mt-16 z-20 w-60 bg-white border border-gray-200 rounded-lg shadow-lg py-2">
             <PopupElement title = 'Profile' icon={BsFillPersonFill} handlerFunction={navigateTOProfile}/>
             <PopupElement title = 'Sign Out' icon={IoLogOut} handlerFunction={SignOut}/>
           </div>
         }
-        <div className='bg-white shadow-md w-full h-20 flex justify-between items-center px-11'>
+        <div className='bg-white shadow-md w-full h-20 flex justify-between items-center px-11 fixed'>
             <h1 className='cursor-pointer font-semibold' onClick={()=>navigate('/')}>BLOG APPLICATION</h1>
             <div className='flex gap-4 items-center'>
               {userDetails?

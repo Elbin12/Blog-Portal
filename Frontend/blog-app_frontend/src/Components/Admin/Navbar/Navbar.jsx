@@ -6,7 +6,7 @@ function Navbar() {
   const navigate = useNavigate();
 
   return (
-    <div className='h-20 px-11 shadow-lg flex items-center justify-between'>
+    <div className='fixed w-full z-20 h-20 px-11 shadow-lg flex items-center justify-between'>
       <h1 className='text-2xl cursor-pointer' onClick={()=>navigate('/admin/home')}>Blog Admin</h1>
       <div className='flex gap-4'>
         <div className='cursor-pointer' onClick={()=>navigate('/admin/users')}>

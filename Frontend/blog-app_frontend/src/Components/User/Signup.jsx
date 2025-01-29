@@ -1,8 +1,10 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { IoMdClose } from "react-icons/io";
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import { signup } from '../../Features/User/UserActions';
 import { axiosInstance } from '../../axios';
+import { toast } from 'sonner';
+import { resetErrors } from '../../Features/User/UserSlice';
 
 function Signup({setActivePopup}) {
   const [email, setEmail] = useState();
@@ -12,12 +14,28 @@ function Signup({setActivePopup}) {
 
   const [shwPswrdInpts, setShwPswrdInpts] = useState(false);
 
+  const success = useSelector(state=>state.user.success)
+  const error = useSelector(state=>state.user.error)
+
   const dispatch = useDispatch();
 
   const handleEmail = (e)=>{
     setEmail(e.target.value);
     setShwPswrdInpts(false);
   }
+
+  useEffect(()=>{
+    if(error){
+      console.log('errrer')
+      toast.error(error)
+    }
+    if(success){
+      toast.success('sign up successfull');
+      setActivePopup('');
+    }
+    
+    dispatch(resetErrors())
+  }, [success, error])
 
   const handleNext = ()=>{
     var validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;

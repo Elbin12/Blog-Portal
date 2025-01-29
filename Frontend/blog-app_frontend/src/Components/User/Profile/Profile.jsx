@@ -45,7 +45,7 @@ function Profile() {
                 <button className='text-white text-lg'>Save</button>
             </div>
         }
-        <div className='h-screen bg-stone-100'>
+        <div className='h-screen bg-stone-100 pt-28'>
         <div className='p-24 flex gap-4 items-center'>
             <div className='bg-white w-36 h-36 rounded-full flex justify-center items-center'>
                 <input type="file" className='hidden' ref={inputRef} onChange={handleImg}/>

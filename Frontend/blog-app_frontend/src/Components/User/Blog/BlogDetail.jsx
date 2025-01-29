@@ -47,7 +47,7 @@ function BlogDetail() {
     }
 
   return (
-    <div className='px-36 py-6'>
+    <div className='px-36 py-6 pt-24'>
       <div className='space-y-9'>
         <div className='flex items-center justify-between pr-11'>
           <div className='space-y-6 '>
@@ -85,8 +85,8 @@ function BlogDetail() {
           </div>
         </div>
         <div className='space-y-5'>
-            <div className='w-full h-[35rem] overflow-hidden'>
-                <img src={blog?.image} alt="" className='object-cover'/>
+            <div className='w-full h-[35rem] flex justify-center overflow-hidden'>
+                <img src={blog?.image} alt="" className='object-cover w-3/4'/>
             </div>
             <p>{blog?.body}</p>
         </div>
