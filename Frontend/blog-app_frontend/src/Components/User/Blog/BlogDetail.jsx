@@ -63,7 +63,7 @@ function BlogDetail() {
           </div>
         </div>
         <div className='text-lg flex gap-4 border-b border-t border-gray-100 py-1'>
-          <div className='flex items-center gap-1' onClick={handleLike}>
+          <div className='flex items-center gap-1 cursor-pointer' onClick={handleLike}>
             {blog?.is_liked?
               <BiSolidLike className='text-lg text-lime-500'/>
               :
@@ -71,7 +71,7 @@ function BlogDetail() {
             }
             <p className='text-gray-600'>{blog?.like_count}</p>
           </div>
-          <div className='flex items-center gap-1' onClick={handleDisike}>
+          <div className='flex items-center gap-1 cursor-pointer' onClick={handleDisike}>
             {blog?.is_disliked?
               <BiSolidDislike className='text-lg text-gray-500'/>
               :

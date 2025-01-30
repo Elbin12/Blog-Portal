@@ -15,6 +15,14 @@ function Signin() {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  
+  const adminDetails = useSelector(state=>state.admin.adminDetails)
+
+  useEffect(()=>{
+    if (adminDetails){
+      navigate('/admin/home')
+    }
+  }, [])
 
   useEffect(()=>{
     if(error){

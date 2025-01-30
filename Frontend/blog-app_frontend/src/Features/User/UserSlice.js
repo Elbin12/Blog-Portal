@@ -103,6 +103,7 @@ const userSlice = createSlice({
 
         .addCase(createBlog.fulfilled, (state, action) => {
             state.blogs = [...state.blogs, action?.payload];
+            state.success = true;
         })
 
         .addCase(createBlog.rejected, (state, action) => {

@@ -15,8 +15,8 @@ function UserRoutes() {
         <Route path='/profile' element={<UserProtected>< Profilepage/></UserProtected>}/>
         <Route path='/blog/create' element={<UserProtected>< CreateBlogPage/></UserProtected>}/>
         <Route path='/blog/edit' element={<UserProtected>< BlogEditPage/></UserProtected>}/>
-        <Route path='/blogs' element={<UserProtected>< BlogsListingPage/></UserProtected>}/>
-        <Route path='/blog/:id' element={<UserProtected>< BlogDetailsPage/></UserProtected>}/>
+        <Route path='/blogs' element={< BlogsListingPage/>}/>
+        <Route path='/blog/:id' element={< BlogDetailsPage/>}/>
     </Routes>
   )
 }

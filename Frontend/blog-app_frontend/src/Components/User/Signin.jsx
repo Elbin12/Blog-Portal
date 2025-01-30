@@ -44,7 +44,7 @@ function Signin({setActivePopup}) {
   }
 
   return (
-    <div className='fixed h-screen w-screen bg-[#ffffff8f]'>
+    <div className='fixed h-screen w-screen z-20 bg-[#5454548f]'>
       <div className='w-full mt-24 flex justify-center'>
         <div className='w-1/4 h-full bg-white rounded-lg p-3 shadow-2xl'>
             <div className="flex justify-end">

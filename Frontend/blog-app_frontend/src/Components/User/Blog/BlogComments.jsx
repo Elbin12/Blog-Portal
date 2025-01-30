@@ -53,17 +53,19 @@ function BlogComments({blog}) {
             <h1 className='text-lg font-semibold'>All comments</h1>
         </div>
         <div className='rounded-lg flex'>
-            <div className=' w-full px-9 py-4 space-y-3'>
-                <div className='bg-white rounded-lg py-6 px-4 shadow-lg space-y-2'>
-                    <div className='flex items-center gap-2'>
-                        <img src={user?.user_profile?.profile_pic} alt="" className='w-9 h-9 object-cover rounded-full'/>
-                        <h1 className='font-semibold'>{user?.user_profile?.first_name} {user?.user_profile?.last_name}</h1>
+            <div className=' w-full px- py-4 space-y-3'>
+                {user&&
+                    <div className='bg-white rounded-lg py-6 px-4 shadow-lg space-y-2'>
+                        <div className='flex items-center gap-2'>
+                            <img src={user?.user_profile?.profile_pic} alt="" className='w-9 h-9 object-cover rounded-full'/>
+                            <h1 className='font-semibold'>{user?.user_profile?.first_name} {user?.user_profile?.last_name}</h1>
+                        </div>
+                        <textarea name="" id="" placeholder='What are your thoughts?' className='p-2 w-full outline-none bg-transparent rounded' onChange={(e)=>setComment(e.target.value)}></textarea>
+                        <div className='w-full text-end'>
+                            <button className='py-1 px-4 bg-lime-600 rounded-full text-white font-semibold' onClick={handleSubmit}>Respond</button>
+                        </div>
                     </div>
-                    <textarea name="" id="" placeholder='What are your thoughts?' className='p-2 w-full outline-none bg-transparent rounded' onChange={(e)=>setComment(e.target.value)}></textarea>
-                    <div className='w-full text-end'>
-                        <button className='py-1 px-4 bg-lime-600 rounded-full text-white font-semibold' onClick={handleSubmit}>Respond</button>
-                    </div>
-                </div>
+                }
                 {blog?.comments?.map((comment, index)=>(
                     <div className='space-y-6 py-4 px-9 '>
                         <div className='space-y-4'>

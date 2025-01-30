@@ -49,7 +49,7 @@ function Navbar() {
             <PopupElement title = 'Sign Out' icon={IoLogOut} handlerFunction={SignOut}/>
           </div>
         }
-        <div className='bg-white shadow-md w-full h-20 flex justify-between items-center px-11 fixed'>
+        <div className='bg-white shadow-md w-full z-10 h-20 flex justify-between items-center px-11 fixed'>
             <h1 className='cursor-pointer font-semibold' onClick={()=>navigate('/')}>BLOG APPLICATION</h1>
             <div className='flex gap-4 items-center'>
               {userDetails?
