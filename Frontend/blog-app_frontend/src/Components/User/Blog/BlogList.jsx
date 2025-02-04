@@ -1,10 +1,13 @@
 import React, { useState } from 'react'
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {BiSolidDislike, BiSolidLike } from "react-icons/bi";
 import { FaComment } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
 import { HiDotsHorizontal } from "react-icons/hi";
 import { MdOutlineEdit } from "react-icons/md";
+import { MdDeleteOutline } from "react-icons/md";
+import { editBlog } from '../../../Features/User/UserActions';
+import { MdDelete } from "react-icons/md";
 
 
 function BlogList({blogs}) {
@@ -13,6 +16,16 @@ function BlogList({blogs}) {
 
   const user = useSelector(state=>state.user.userDetails)
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const handleDelete = (blog)=> {
+    const data = {
+      'blog_id':blog?.id,
+      'is_available':blog?.is_available ? false: true
+    }
+    dispatch(editBlog(data));
+    setEditPopup('')
+  }
 
   console.log(blogs,typeof(blogs), 'kk')
   return (
@@ -24,10 +37,10 @@ function BlogList({blogs}) {
               <div className='flex justify-end w-full '>
                 <HiDotsHorizontal onClick={()=>{editPopup===''? setEditPopup(index): setEditPopup('')}}/>
                 {editPopup === index && 
-                  <div className='fixed mt-4 py-1 rounded space-y-2 w-20 bg-gray-100 shadow-2xl mx-0.5'>
-                    <div className='flex gap-1 items-center justify-end w-full pr-3 font-semibold text-neutral-700 hover:text-black' onClick={()=>navigate('/blog/edit', {state:blog})}>
-                      <MdOutlineEdit className='text-lg'/>
-                      <h1>Edit</h1>
+                  <div className='fixed mt-4 py-1 rounded space-y-1 px-3 bg-gray-100 shadow-2xl mx-0.5'>
+                    <div className='flex gap-1 items-center justify-start w-full font-semibold text-neutral-700 hover:text-black'>
+                      <MdOutlineEdit className='text-lg text-lime-600' onClick={()=>navigate('/blog/edit', {state:blog})}/>
+                      {blog?.is_available ?<MdDeleteOutline className='text-lg text-red-600' onClick={()=>handleDelete(blog)}/>: <MdDelete className='text-lg text-red-500' onClick={()=>handleDelete(blog)}/>}
                     </div>
                   </div>
                 }

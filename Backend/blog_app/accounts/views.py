@@ -127,7 +127,7 @@ class UpdateBlog(UpdateAPIView):
 class BlogList(ListAPIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [permissions.AllowAny]
-    queryset = Blog.objects.all()
+    queryset = Blog.objects.filter(is_available=True)
     serializer_class = BlogSerializer
 
 

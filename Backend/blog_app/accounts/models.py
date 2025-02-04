@@ -63,6 +63,7 @@ class Blog(models.Model):
     image = models.CharField(max_length=200)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    is_available = models.BooleanField(default=True)
 
 class Interactions(models.Model):
     blog = models.ForeignKey(Blog, on_delete=models.CASCADE, related_name='blog_interactions')
